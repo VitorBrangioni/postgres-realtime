@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  realtime:
+    image: supabase/realtime:latest
+    ports:
+      - "4000:4000"
+    environment:
+      DB_HOST: realtime-pg_db_1
+      DB_NAME: postgres
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_PORT: 5432
+      PORT: 4000
+      # JWT_SECRET: SOMETHING_SUPER_SECRET
+      SECURE_CHANNELS: 'false'
+    networks:
+      - ufrilla-network
+    depends_on:
+      - db
+
+  db:
+    build: database/.
+    restart: always
+    environment: 
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - ufrilla-network
+    
+networks:
+  ufrilla-network:
+    driver: bridge

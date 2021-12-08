@@ -1,0 +1,13 @@
+{
+  "name": "realtime-pg",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "forever -w --minUptime 2000 --spinSleepTime 2000 src/server.js"
+  },
+  "dependencies": {
+    "@supabase/realtime-js": "^1.3.3",
+    "forever": "^4.0.1"
+  }
+}

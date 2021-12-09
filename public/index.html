@@ -6,29 +6,58 @@
   <title>Services</title>
 </head>
 <body>
-  <h2>Services</h2>
-  <ul id="messages"></ul>
+  <h2>Scheduled Services</h2>
+  <ul id="scheduled"></ul>
+  <br><br>
+
+  <h2>Pendding Services</h2>
+  <ul id="pendding"></ul>
+  <br><br>
+
+  <h2>In Progress Services</h2>
+  <ul id="inProgress"></ul>
+  <br><br>
   
 </body>
 <script type="module">
   import { io } from "https://cdn.socket.io/4.4.0/socket.io.esm.min.js";
 
   const socket = io('http://localhost:8181');
-  const messages = document.getElementById('messages');
-
-  console.log('oi');
+  const htmlScheduled = document.getElementById('scheduled');
+  const htmlPendding = document.getElementById('pendding');
+  const htmlInProgress = document.getElementById('inProgress');
 
   socket.emit('sendMessage', {
     text: 'working'
   });
+  socket.on('receivedMessage', (data) => {
+    htmlScheduled.innerHTML = '';
+    htmlPendding.innerHTML = '';
+    htmlInProgress.innerHTML = '';
 
-  socket.on('receivedMessage', (msg) => {
-    console.log(`message received `, msg);
-    const item = document.createElement('li');
-   item.textContent = msg.record.name;
-   messages.appendChild(item);
-   window.scrollTo(0, document.body.scrollHeight);
+    const { servicesScheduled, servicesPendding, servicesInProgress } = data;
+
+    servicesScheduled.map(service => {
+      const item = document.createElement('li');
+      item.textContent = service.name;
+      htmlScheduled.appendChild(item);
+      window.scrollTo(0, document.body.scrollHeight);
+    });
+
+    servicesPendding.map(service => {
+      const item = document.createElement('li');
+      item.textContent = service.name;
+      htmlPendding.appendChild(item);
+      window.scrollTo(0, document.body.scrollHeight);
+    });
+
+    servicesInProgress.map(service => {
+      const item = document.createElement('li');
+      item.textContent = service.name;
+      htmlInProgress.appendChild(item);
+      window.scrollTo(0, document.body.scrollHeight);
+    });
+
   });
-  console.log('test')
 </script>
 </html>

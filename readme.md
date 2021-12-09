@@ -1,7 +1,7 @@
 
 ## POSTGRES REALTIME
 
-Realtime application using Supabase to listen events in postgres and Socket.io to send this database change to client. 
+Realtime application using Supabase to listen events in postgres and Socket.io to send this database changes to client. 
 
 
 ### How to run

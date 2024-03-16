@@ -15,7 +15,7 @@ services:
       # JWT_SECRET: SOMETHING_SUPER_SECRET
       SECURE_CHANNELS: 'false'
     networks:
-      - ufrilla-network
+      - realtime-network
     depends_on:
       - db
 
@@ -27,8 +27,8 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - ufrilla-network
+      - realtime-network
     
 networks:
-  ufrilla-network:
+  realtime-network:
     driver: bridge

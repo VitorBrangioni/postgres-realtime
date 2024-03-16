@@ -2,18 +2,18 @@ const DatabaseListener = require('../../services/DatabaseListener');
 const Service = require('../../models/Service');
 
 const helperToServiceMapStatus = {
-  1: 'servicesScheduled',
-  2: 'servicesPendding',
-  3: 'servicesInProgress'
+  1: 'servicesPendding',
+  2: 'servicesInProgress',
+  3: 'servicesConcluded'
 };
 
 class ServiceController {
 
   static databaseChanges = new DatabaseListener();
   static servicesDto = {
-    servicesInProgress: [],
     servicesPendding: [],
-    servicesScheduled: []
+    servicesInProgress: [],
+    servicesConcluded: []
   };
 
   constructor() {
@@ -25,6 +25,8 @@ class ServiceController {
 
     servicesFound.map(service => {
       const serviceKey = helperToServiceMapStatus[service.status_id];
+
+      console.log('serviceKey === ', serviceKey);
 
       ServiceController.servicesDto[serviceKey].push(service);
     });

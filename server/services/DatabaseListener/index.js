@@ -15,7 +15,10 @@ class DatabaseListener {
   _on(eventName, callback, channel = '*') {
     const databaseChanges = this.socket.channel(`realtime:${channel}`);
 
-    databaseChanges.on(eventName, (e) => callback(e));
+    databaseChanges.on(eventName, (e) => {
+      console.log('EVENT', e);
+      callback(e);
+    });
     databaseChanges.subscribe();
   }
 

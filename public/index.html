@@ -6,10 +6,6 @@
   <title>Services</title>
 </head>
 <body>
-  <h2>Scheduled Services</h2>
-  <ul id="scheduled"></ul>
-  <br><br>
-
   <h2>Pendding Services</h2>
   <ul id="pendding"></ul>
   <br><br>
@@ -17,34 +13,32 @@
   <h2>In Progress Services</h2>
   <ul id="inProgress"></ul>
   <br><br>
+
+  <h2>Concluded Services</h2>
+  <ul id="concluded"></ul>
+  <br><br>
   
 </body>
 <script type="module">
   import { io } from "https://cdn.socket.io/4.4.0/socket.io.esm.min.js";
 
   const socket = io('http://localhost:8181');
-  const htmlScheduled = document.getElementById('scheduled');
   const htmlPendding = document.getElementById('pendding');
   const htmlInProgress = document.getElementById('inProgress');
+  const htmlConcluded = document.getElementById('concluded');
 
   socket.emit('sendMessage', {
     text: 'working'
   });
   socket.on('receivedMessage', (data) => {
-    htmlScheduled.innerHTML = '';
     htmlPendding.innerHTML = '';
     htmlInProgress.innerHTML = '';
+    htmlConcluded.innerHTML = '';
 
-    const { servicesScheduled, servicesPendding, servicesInProgress } = data;
-
-    servicesScheduled.map(service => {
-      const item = document.createElement('li');
-      item.textContent = service.name;
-      htmlScheduled.appendChild(item);
-      window.scrollTo(0, document.body.scrollHeight);
-    });
+    const { servicesPendding, servicesInProgress, servicesConcluded } = data;
 
     servicesPendding.map(service => {
+      console.log('service', service);
       const item = document.createElement('li');
       item.textContent = service.name;
       htmlPendding.appendChild(item);
@@ -55,6 +49,14 @@
       const item = document.createElement('li');
       item.textContent = service.name;
       htmlInProgress.appendChild(item);
+      window.scrollTo(0, document.body.scrollHeight);
+    });
+
+    servicesConcluded.map(service => {
+      console.log('service concluded', service);
+      const item = document.createElement('li');
+      item.textContent = service.name;
+      htmlConcluded.appendChild(item);
       window.scrollTo(0, document.body.scrollHeight);
     });
 
